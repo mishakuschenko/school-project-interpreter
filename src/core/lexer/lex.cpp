@@ -29,11 +29,9 @@ static inline Token token
     return Token {type, value, line, column};
 }
 
+namespace lexer {
 
-std::vector<Token> lex
-(
-    const std::string& input
-)
+std::vector<Token> lex(const std::string& input)
 {
     std::vector<Token> tokens;
 
@@ -43,14 +41,40 @@ std::vector<Token> lex
     size_t column = 1;
     size_t start = 0;
 
-    char current;
+    auto current = [&input, &position]() -> char
+    {
+        return input[position];
+    };
 
-    // implement lexer loool
+    auto peek = [&input, &position, &len]() -> char
+    {
+        return (position + 1 < len) ? input[position + 1] : '\0';
+    };
 
-    while(position < len)
+    auto advance = [&input, &position, &line, &column]() -> char
+    {
+        char c = input[position++];
+        if (c == '\n')
+        {
+            line++;
+            column = 1;
+        }
+        else
+        {
+            column++;
+        }
+        return c;
+    };
+
+    auto is_at_end = [&position, &len]() -> bool
+    {
+        return position >= len;
+    };
+
+    while(!is_at_end())
     {
         start = position;
-        current = input[position];
+        const char curr = current();
 
         break; // TODO: Implement lexer logic and remove this
     }
@@ -65,4 +89,6 @@ std::vector<Token> lex
     );
 
     return tokens;
+}
+
 }

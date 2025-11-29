@@ -4,11 +4,7 @@
 
 #include "../include/utils/read_src.h"
 
-int main
-(
-    int argc,
-    char* argv[]
-)
+int main(int argc, char* argv[])
 {
 
     const char* SOURCE_FILE_NAME = argv[1];
@@ -19,7 +15,6 @@ int main
         std::cerr << "Failed to open file: " << SOURCE_FILE_NAME << std::endl;
         return 1;
     }
-
 
     std::string src = read_src(SOURCE_FILE_NAME);
 
